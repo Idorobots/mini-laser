@@ -3,6 +3,7 @@ HEIGHT = 90;
 THICKNESS = 5;
 CORNER_DIA = 10;
 
+MOTOR_WIDTH = 42;
 MOTOR_MOUNT_SPACING = 31;
 MOTOR_MOUNT_DIA = 3;
 MOTOR_SHAFT_DIA = 23;
@@ -12,6 +13,7 @@ PULLEY_MOUNT_HEIGHT = 37;
 PULLEY_MOUNT_DIA = 5;
 PULLEY_SHAFT_LEN = 12;
 PULLEY_SHAFT_DIA = 10;
+PULLEY_MOTOR_OFFSET = PULLEY_MOUNT_HEIGHT/2;
 
 BEAM_WIDTH = 20;
 BEAM_SUPPORT_LEN = 20;
@@ -38,7 +40,13 @@ module plate() {
         rounded_cube(WIDTH, h, THICKNESS, CORNER_DIA);
         translate([0, (HEIGHT-PULLEY_MOUNT_HEIGHT), 0])
         rounded_cube(bw, bw, THICKNESS, CORNER_DIA);
+        translate([0, PULLEY_MOTOR_OFFSET, 0])
+        rounded_cube(MOTOR_WIDTH, MOTOR_WIDTH, THICKNESS, CORNER_DIA);
     }   
+}
+
+module motor_mount_pos() {
+    rounded_cube(MOTOR_WIDTH, MOTOR_WIDTH, THICKNESS, CORNER_DIA);
 }
 
 module motor_mount_neg() {
@@ -73,24 +81,27 @@ module pulley_mount_neg() {
 
 module beam_mount_pos() {
     bw = BEAM_WIDTH + 2 * BEAM_SUPPORT_THICKNESS;
-    translate([0, (HEIGHT-PULLEY_MOUNT_HEIGHT), 0])
     rounded_cube(bw, bw, THICKNESS + BEAM_SUPPORT_LEN, CORNER_DIA);
 }
 
 module beam_mount_neg() {
     bw = BEAM_WIDTH;
-    translate([-bw/2, HEIGHT-PULLEY_MOUNT_HEIGHT - bw/2, 0])
+    translate([-bw/2, -bw/2, 0])
     cube(size = [bw, bw, THICKNESS + BEAM_SUPPORT_LEN]);    
 }
 
 difference() {
     union() {
         plate();
+        translate([0, PULLEY_MOTOR_OFFSET, 0])
+        motor_mount_pos();
         pulley_mount_pos();
+        translate([0, (HEIGHT-PULLEY_MOUNT_HEIGHT), 0])
         beam_mount_pos();
     }
-    translate([0, PULLEY_MOUNT_WIDTH/3, 0])
+    translate([0, PULLEY_MOTOR_OFFSET, 0])
     motor_mount_neg();
     pulley_mount_neg();
+    translate([0, (HEIGHT-PULLEY_MOUNT_HEIGHT), 0])
     beam_mount_neg();
 }
