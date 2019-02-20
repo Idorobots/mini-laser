@@ -53,7 +53,7 @@ module mount_neg() {
 
 module pulley_mount_pos() {
     for(i = [-1, 1]) {
-        for(j = [-1, 1]) {
+        for(j = [1]) {
             translate([i * PULLEY_MOUNT_WIDTH/2, j * PULLEY_MOUNT_HEIGHT/2, 0])
             cylinder(d = PULLEY_SHAFT_DIA, h = PULLEY_SHAFT_LEN + THICKNESS);
         }
