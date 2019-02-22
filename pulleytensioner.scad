@@ -15,9 +15,9 @@ SEGMENT_ANGLE = 30;
 $fn = 50;
 
 module wheel_neg() {
-    difference() {
+    union() {
         cylinder(d = WHEEL_OUTER_DIA, h = WHEEL_THICKNESS, center = true);
-        cylinder(d = WHEEL_INNER_DIA, h = WHEEL_THICKNESS, center = true);
+        cylinder(d = WHEEL_INNER_DIA, h = SEGMENT_WIDTH, center = true);
     }
 }
 
