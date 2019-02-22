@@ -27,10 +27,10 @@ module rounded_cube(width, height, thickness, corner_dia) {
     }       
 }
 
-module mounting_holes(dia, width, height, thickness) {
+module mounting_holes(dia, width, height, thickness, three = false) {
     union() {
-        for(i = [-1, 1]) {
-            for(j = [-1, 1]) {
+        for(j = [-1, 1]) {
+            for(i = (three && j == -1) ? [0] : [-1, 1]) {
                 translate([i * width/2, j * height/2, 0])
                 cylinder(d = dia, h = thickness);
             }
@@ -52,7 +52,7 @@ module mount_pos() {
 }
 
 module mount_neg() {
-    mounting_holes(MOUNT_DIA, MOUNT_WIDTH, MOUNT_HEIGHT, THICKNESS);
+    mounting_holes(MOUNT_DIA, MOUNT_WIDTH, MOUNT_HEIGHT, THICKNESS, true);
 }
 
 module pulley_mount_pos() {
