@@ -1,12 +1,12 @@
-DIAMETER = 9.25;
+DIAMETER = 7;
 HEIGHT = 15;
 CAP_DIAMETER = 15;
 CAP_HEIGHT = 4;
-MOUNT_WIDTH = 2;
-MOUNT_LENGTH = 3;
-MOUNT_HEIGHT = 2.5;
+MOUNT_WIDTH = 2.2;
+MOUNT_LENGTH = 3.2;
+MOUNT_HEIGHT = 3;
 
-$fn = 30;
+$fn = 50;
 
 difference() {
     union() {
