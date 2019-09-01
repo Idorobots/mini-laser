@@ -1,5 +1,5 @@
-WIDTH = 65;
-HEIGHT = 90;
+WIDTH = 70;
+HEIGHT = 65;
 THICKNESS = 5;
 CORNER_DIA = 10;
 
@@ -8,15 +8,13 @@ MOTOR_MOUNT_SPACING = 31;
 MOTOR_MOUNT_DIA = 3;
 MOTOR_SHAFT_DIA = 23;
 
-PULLEY_MOUNT_WIDTH = 55;
-PULLEY_MOUNT_HEIGHT = 37.5;
+PULLEY_MOUNT_WIDTH = 60;
+PULLEY_MOUNT_HEIGHT = 37;
 PULLEY_MOUNT_DIA = 5;
-PULLEY_SHAFT_LEN = 12;
-PULLEY_SHAFT_DIA = 10;
-PULLEY_MOTOR_OFFSET = PULLEY_MOUNT_HEIGHT/2;
+PULLEY_MOTOR_OFFSET = -PULLEY_MOUNT_HEIGHT/2;
 
 BEAM_WIDTH = 20;
-BEAM_SUPPORT_LEN = 20;
+BEAM_SUPPORT_LEN = 15;
 BEAM_SUPPORT_THICKNESS = 5;
 
 
@@ -34,7 +32,7 @@ module rounded_cube(width, height, thickness, corner_dia) {
 }
 
 module plate() {
-    h = PULLEY_MOUNT_HEIGHT+PULLEY_SHAFT_DIA;
+    h = PULLEY_MOUNT_HEIGHT + 2*PULLEY_MOUNT_DIA;
     bw = BEAM_WIDTH + 2 * BEAM_SUPPORT_THICKNESS;
     hull() {
         rounded_cube(WIDTH, h, THICKNESS, CORNER_DIA);
@@ -61,20 +59,11 @@ module motor_mount_neg() {
     }
 }
 
-module pulley_mount_pos() {
-    for(i = [-1, 1]) {
-        for(j = [-1, 1]) {
-            translate([i * PULLEY_MOUNT_WIDTH/2, j * PULLEY_MOUNT_HEIGHT/2, 0])
-            cylinder(d = PULLEY_SHAFT_DIA, h = PULLEY_SHAFT_LEN + THICKNESS);
-        }
-    }
-}
-
 module pulley_mount_neg() {
     for(i = [-1, 1]) {
         for(j = [-1, 1]) {
             translate([i * PULLEY_MOUNT_WIDTH/2, j * PULLEY_MOUNT_HEIGHT/2, 0])
-            cylinder(d = PULLEY_MOUNT_DIA, h = PULLEY_SHAFT_LEN + THICKNESS);
+            cylinder(d = PULLEY_MOUNT_DIA, h = THICKNESS);
         }
     }   
 }
@@ -95,7 +84,6 @@ difference() {
         plate();
         translate([0, PULLEY_MOTOR_OFFSET, 0])
         motor_mount_pos();
-        pulley_mount_pos();
         translate([0, (HEIGHT-PULLEY_MOUNT_HEIGHT), 0])
         beam_mount_pos();
     }

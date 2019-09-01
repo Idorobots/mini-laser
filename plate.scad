@@ -1,14 +1,11 @@
-WIDTH = 65;
-HEIGHT = 90;
+WIDTH = 70;
+HEIGHT = 65;
 THICKNESS = 5;
 CORNER_DIA = 10;
 
-PULLEY_MOUNT_WIDTH = 55;
-PULLEY_MOUNT_HEIGHT = 37.5;
+PULLEY_MOUNT_WIDTH = 60;
+PULLEY_MOUNT_HEIGHT = 37;
 PULLEY_MOUNT_DIA = 5;
-PULLEY_SHAFT_LEN = 12;
-PULLEY_SHAFT_DIA = 10;
-PULLEY_MOTOR_OFFSET = PULLEY_MOUNT_HEIGHT/2;
 
 MOUNT_DIA = 3;
 MOUNT_HEIGHT = 40;
@@ -39,7 +36,7 @@ module mounting_holes(dia, width, height, thickness, three = false) {
 }
 
 module plate() {
-    h = PULLEY_MOUNT_HEIGHT+PULLEY_SHAFT_DIA;
+    h = PULLEY_MOUNT_HEIGHT + 2*PULLEY_MOUNT_DIA;
     hull() {
         rounded_cube(WIDTH, h, THICKNESS, CORNER_DIA);
     }   
@@ -52,26 +49,17 @@ module mount_pos() {
 }
 
 module mount_neg() {
-    mounting_holes(MOUNT_DIA, MOUNT_WIDTH, MOUNT_HEIGHT, THICKNESS, true);
+    mounting_holes(MOUNT_DIA, MOUNT_WIDTH, MOUNT_HEIGHT, THICKNESS, false);
 }
 
-module pulley_mount_pos() {
-    for(i = [-1, 1]) {
-        for(j = [1]) {
-            translate([i * PULLEY_MOUNT_WIDTH/2, j * PULLEY_MOUNT_HEIGHT/2, 0])
-            cylinder(d = PULLEY_SHAFT_DIA, h = PULLEY_SHAFT_LEN + THICKNESS);
-        }
-    }
-}
 
 module pulley_mount_neg() {
-    mounting_holes(PULLEY_MOUNT_DIA, PULLEY_MOUNT_WIDTH, PULLEY_MOUNT_HEIGHT, PULLEY_SHAFT_LEN + THICKNESS);
+    mounting_holes(PULLEY_MOUNT_DIA, PULLEY_MOUNT_WIDTH, PULLEY_MOUNT_HEIGHT, THICKNESS);
 }
 
 difference() {
     union() {
         plate();
-        pulley_mount_pos();
         mount_pos();
     }
     pulley_mount_neg();
