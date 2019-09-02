@@ -5,6 +5,8 @@ CORNER_DIA = 10;
 
 PLATE_MOUNT_HEIGHT = 12;
 PLATE_MOUNT_DIA = 4;
+PLATE_MOUNT_NUT_DIA = 8;
+PLATE_MOUNT_NUT_HEIGHT = 3.2;
 
 MOUNT_DIA = 3;
 MOUNT_HEIGHT_1 = 40;
@@ -61,6 +63,10 @@ module mount_neg() {
 
 module plate_mount_neg() {
     mounting_holes(PLATE_MOUNT_DIA, 0, PLATE_MOUNT_HEIGHT, THICKNESS, two = true);
+    translate([0, 0, THICKNESS-PLATE_MOUNT_NUT_HEIGHT]) {
+        $fn = 6;
+        mounting_holes(PLATE_MOUNT_NUT_DIA, 0, PLATE_MOUNT_HEIGHT, THICKNESS, two = true);
+    }
 }
 
 difference() {
